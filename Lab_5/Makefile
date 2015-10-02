@@ -1,0 +1,17 @@
+obj-m := ProdCons.o
+
+
+KVERSION := $(shell uname -r)
+KDIR := /lib/modules/$(KVERSION)/build
+PWD := $(shell pwd)
+
+
+default:
+	$(MAKE) -C $(KDIR) M=$(PWD) modules -lpthread
+
+clean:
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
+
+rmall:
+	rmall '*.o' '*.ko' '*.mod.c' Mod* mod* '.[a-z]*' '.tmp_versions/*'
+	rmdall .tmp_versions

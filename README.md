@@ -7,7 +7,15 @@ kthreads and work_queues
 
 # Lab_3
 Multiple threading. 
-- Create two threads to process on a single array by incrementing each address by one. 
+- Create two threads to process on a single array by incrementing each slot by one.
 
 # Lab_4
-Monito
+Monitor battery status
+- ACPI calls & decompiling. Monitor battery status and provide user with alerts at certain battery levels.
+- Optional: utilize java widget to display battery info.
+<Unfinished>
+
+# Lab_5
+Pthreads, streams, locks
+- Create a buffer such that one "Producer" can feed many "Consumers" with data.
+- Use semaphores to pull the data and work with it.
