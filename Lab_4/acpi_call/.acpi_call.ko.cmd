@@ -1,0 +1,1 @@
+cmd_/home/taylor/Documents/Labs/Lab_4/acpi_call/acpi_call.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/taylor/Documents/Labs/Lab_4/acpi_call/acpi_call.ko /home/taylor/Documents/Labs/Lab_4/acpi_call/acpi_call.o /home/taylor/Documents/Labs/Lab_4/acpi_call/acpi_call.mod.o
