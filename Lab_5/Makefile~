@@ -10,7 +10,7 @@ INC = -I/usr/include
 all: ProdCons
 
 ProdCons: ProdCons.c
-	gcc ProdCons.c -lpthread -o ProdCons  
+	gcc ProdCons.c -lpthread -o ProdCons -std=c99 
 
 clean:
 	rm ProdCons

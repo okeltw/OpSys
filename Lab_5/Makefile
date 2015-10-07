@@ -15,3 +15,8 @@ ProdCons: ProdCons.c
 clean:
 	rm ProdCons
 
+fresh:
+	rm ProdCons
+	gcc ProdCons.c -lpthread -o ProdCons -std=c99
+
+

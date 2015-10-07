@@ -31,19 +31,6 @@ typedef struct {
 } Args;
 
 typedef struct {
-<<<<<<< HEAD
-	int consumerID;
-	int tokenIndex;
-} ConnectEntry;
-
-typedef struct {
-	int nextToken;
-	ConnectEntry connectedConsumer;
-} connection;
-
-int consumerIDs[];
-int numConsumers;
-=======
 	int ID;
 	int tokenIndex;
 } ConnectEntry;
@@ -52,7 +39,6 @@ int numConsumers;
 ConnectEntry consumers[10];
 int numConsumers;
 int currentIndex;
->>>>>>> master
 
 void IsEmpty(void);
 
@@ -65,35 +51,15 @@ int menu(void){
 	int choice = 0;
 
 	printf("Choose an option:\n=================\n");
-<<<<<<< HEAD
-	printf("1) Connect consumer\n2) Disconnect Consumer\n3) Consume\n4) Cancel Consume Request\n5) Check Buffers\n6) Quit\n>>> ");
-=======
+
 	printf("1) Connect consumer\n2) Disconnect Consumer\n3) Print Connected Consumers\n4) Consume\n5) Cancel Consume Request\n6) Check Buffers\n7) Quit\n>>> ");
->>>>>>> master
+
 	
 	scanf("%i",&choice);
 
 	return choice;
 }
 
-<<<<<<< HEAD
-void connect(void){
-	int id = 0;
-	bool flag = 1;
-	
-	while(flag){	
-		printf("Taken IDs:\n");
-		for(int i=0; i<numConsumers;i++){
-			printf("%i\n", consumerIDs[i]);
-		}
-		printf("=============\nAssign consumer id (integer):\n>>> ");
-		scanf("%i", &id);
-			
-		flag = 0;
-		for(int i=0; i<numConsumers;i++){
-			if(id == consumerIDs[i]){
-				printf("\n\nID taken. Choose a new ID.\n");
-=======
 void connect(int id){
 	bool flag = 1;
 	
@@ -107,20 +73,16 @@ void connect(int id){
 	while(flag){			
 		flag = 0;
 		for(int i=0; i<numConsumers;i++){
-			if(id == consumers[i].id){
+			if(id == consumers[i].ID){
 				printf("\n\nID taken. Choose a new ID.\n>>>");
 				scanf("%i", &id);
->>>>>>> master
 				flag = 1;			
 			}
 		}
 		
 	}
 	
-<<<<<<< HEAD
-	consumerIDs = realloc(consumerIDs, (numConsumers + 1)*sizeof(int));
-=======
-	consumers[numConsumers].id = id;
+	consumers[numConsumers].ID = id;
 	consumers[numConsumers++].tokenIndex = currentIndex;
 	return;
 }
@@ -132,9 +94,9 @@ void disconnect(int toDelete){
 		return;
 	}
 	for(i = 0; i <= numConsumers-1; i++){
-		if(toDelete == consumers[i].id){
+		if(toDelete == consumers[i].ID){
 			for(int k = i; k<=numConsumers-2; k++){			
-				consumers[k].id = consumers[k+1].id;			
+				consumers[k].ID = consumers[k+1].ID;			
 			}
 			numConsumers--;
 			printf("\nConsumer %i successfully disconnected.\n", toDelete);
@@ -148,23 +110,13 @@ void disconnect(int toDelete){
 void printIDs(void){
 	printf("\nTaken IDs:\n");
 	for(int i=0; i<numConsumers;i++){
-		printf("%i\n", consumers[i].id);
+		printf("%i\n", consumers[i].ID);
 	}
 	printf("\n");
->>>>>>> master
 }
 
 int main(void){
 	int nav = 0;
-<<<<<<< HEAD
-	numConsumers = 0;
-	consumerIDs = malloc(0*sizeof(int));
-
-	while(nav!=6){
-		nav = menu();
-		if(!(nav >= 0 && nav <= 6))
-		{	printf("Menu options limited to integers between 0 and 6.\n");	}
-=======
 	int id = 0;
 	numConsumers = 0;
 	currentIndex = 0;
@@ -175,29 +127,12 @@ int main(void){
 		nav = menu();
 		if(!(nav >= 0 && nav <= 7))
 		{	printf("Menu options limited to integers between 0 and 7.\n");	}
->>>>>>> master
+
 
 		switch (nav){
 			case 0:
 				break;
 			case 1:
-<<<<<<< HEAD
-				connect();
-				break;
-			case 2:
-				printf("\nDisconnect\n");
-				break;
-			case 3:
-				printf("\nConsume\n");
-				break;
-			case 4:
-				printf("\nCancel\n");
-				break;
-			case 5:
-				printf("\nCheck\n");
-				break;
-			case 6:
-=======
 				printIDs();
 				printf("=============\nAssign consumer id (integer):\n>>> ");
 				scanf("%i", &id);
@@ -222,7 +157,6 @@ int main(void){
 				printf("\nCheck\n");
 				break;
 			case 7:
->>>>>>> master
 				break;
 		}		
 

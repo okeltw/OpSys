@@ -35,7 +35,6 @@ typedef struct {
 	int tokenIndex;
 } ConnectEntry;
 
-
 ConnectEntry consumers[10];
 int numConsumers;
 int currentIndex;
@@ -60,22 +59,9 @@ int menu(void){
 	return choice;
 }
 
-void connect(void){
-	int id = 0;
-	bool flag = 1;
+void consume(void){
 	
-	while(flag){	
-		printf("Taken IDs:\n");
-		for(int i=0; i<numConsumers;i++){
-			printf("%i\n", consumerIDs[i]);
-		}
-		printf("=============\nAssign consumer id (integer):\n>>> ");
-		scanf("%i", &id);
-			
-		flag = 0;
-		for(int i=0; i<numConsumers;i++){
-			if(id == consumerIDs[i]){
-				printf("\n\nID taken. Choose a new ID.\n");
+}
 
 void connect(int id){
 	bool flag = 1;
@@ -90,7 +76,7 @@ void connect(int id){
 	while(flag){			
 		flag = 0;
 		for(int i=0; i<numConsumers;i++){
-			if(id == consumers[i].id){
+			if(id == consumers[i].ID){
 				printf("\n\nID taken. Choose a new ID.\n>>>");
 				scanf("%i", &id);
 				flag = 1;			
@@ -99,7 +85,7 @@ void connect(int id){
 		
 	}
 	
-	consumers[numConsumers].id = id;
+	consumers[numConsumers].ID = id;
 	consumers[numConsumers++].tokenIndex = currentIndex;
 	return;
 }
@@ -111,9 +97,9 @@ void disconnect(int toDelete){
 		return;
 	}
 	for(i = 0; i <= numConsumers-1; i++){
-		if(toDelete == consumers[i].id){
+		if(toDelete == consumers[i].ID){
 			for(int k = i; k<=numConsumers-2; k++){			
-				consumers[k].id = consumers[k+1].id;			
+				consumers[k].ID = consumers[k+1].ID;			
 			}
 			numConsumers--;
 			printf("\nConsumer %i successfully disconnected.\n", toDelete);
@@ -127,7 +113,7 @@ void disconnect(int toDelete){
 void printIDs(void){
 	printf("\nTaken IDs:\n");
 	for(int i=0; i<numConsumers;i++){
-		printf("%i\n", consumers[i].id);
+		printf("%i\n", consumers[i].ID);
 	}
 	printf("\n");
 }
