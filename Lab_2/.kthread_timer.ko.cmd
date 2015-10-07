@@ -1,1 +1,1 @@
-cmd_/home/taylor/Documents/Labs/Lab_2/kthread_timer.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/taylor/Documents/Labs/Lab_2/kthread_timer.ko /home/taylor/Documents/Labs/Lab_2/kthread_timer.o /home/taylor/Documents/Labs/Lab_2/kthread_timer.mod.o
+cmd_/home/taylor/Documents/Labs/OpSys/Lab_2/kthread_timer.ko := ld -r -m elf_x86_64 -T ./scripts/module-common.lds --build-id  -o /home/taylor/Documents/Labs/OpSys/Lab_2/kthread_timer.ko /home/taylor/Documents/Labs/OpSys/Lab_2/kthread_timer.o /home/taylor/Documents/Labs/OpSys/Lab_2/kthread_timer.mod.o

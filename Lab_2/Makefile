@@ -1,5 +1,5 @@
 obj-m := kthread_timer.o
-obj-m := queue_timer.o
+#obj-m := queue_timer.o
 
 KVERSION := $(shell uname -r)
 KDIR := /lib/modules/$(KVERSION)/build
