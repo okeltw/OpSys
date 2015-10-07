@@ -1,0 +1,43 @@
+class queue{
+	public:
+		queue(){
+			head = void;
+		}
+
+		enqueue(void *data){
+			pointer currentPtr;			
+			pointer newPointer = new pointer(data);
+			if(head != void){
+				currentPtr = head;
+				while(currentPtr->next != void){
+					currentPtr = currentPtr->next;
+				}
+				currentPtr = newPointer;
+			}
+			else{
+				head = newPointer;
+			}
+			
+		}
+
+	private:
+		pointer obj;
+		pointer *head;	
+}
+
+class pointer{
+	public:
+		pointer(){
+			*data = void;
+			next = void;
+		}
+	
+		pointer(void *data){
+			this->data = data;
+			this->next = void;
+		}
+
+		void *data;
+		pointer *next;
+
+}

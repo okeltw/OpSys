@@ -1,0 +1,11 @@
+#include <linux/kernel.h>
+#include <linux/module.h>
+#include <queue.h>
+
+MODULE_LICENSE("GPL");
+
+/*
+	Taylor Okel
+	Op Sys - Fall 2015
+	Lab 3
+*/
