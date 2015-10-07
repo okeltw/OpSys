@@ -9,6 +9,8 @@
 #define Lock &((Stream*)stream)->lock
 #define Notifier &((Stream*)stream)->notifier
 
+#define BUFFER_SIZE 5
+
 /* One of these per stream.
    Holds:  the mutex lock and notifier condition variables
            a buffer of tokens taken from a producer
@@ -32,19 +34,15 @@ typedef struct {
 
 typedef struct {
 	int ID;
-	int tokenIndex;
+	pthread_t thread;	
+	Args args;
+	int tokenIndex;	
 } ConnectEntry;
 
 ConnectEntry consumers[10];
 int numConsumers;
 int currentIndex;
 
-void IsEmpty(void);
-
-
-int get(int id){
-	return 0;
-}
 
 int menu(void){
 	int choice = 0;
@@ -59,13 +57,68 @@ int menu(void){
 	return choice;
 }
 
-void consume(void){
+void *get(void *stream){
+	void *ret;
+
+	pthread_mutex_lock(Lock);
+	while (isEmpty(Q))
+		pthread_cond_wait(Notifier, Lock);
 	
+	//TODO: check if last consumer to collect.  if so, dequeue.  else, just peek.
+
+	ret = (void*)dequeue(Q); 
+	pthread_cond_signal(Notifier);
+	pthread_mutex_unlock(Lock);
+	return ret;
+}
+
+void put(void *stream, void *value){
+	pthread_mutex_lock(Lock);
+	while (nelem(Q) >= BUFFER_SIZE)
+		pthread_cond_wait(Notifier, Lock);
+	
+	enqueue(Q, (long)value);
+	pthread_cond_signal(Notifier);
+	pthread_mutex_unlock(Lock);
+	return;
+		
+}
+
+void *produce(void *streams){
+	Stream *self = ((Args*)streams)->self;
+	
+	int i;
+	long *value;
+
+	for (i= 1 ;; i++) {
+		printf("Producer sending %d\n", i);
+		value = (long*)malloc(sizeof(long));
+		*value = i;
+		put(self, (void*)value);
+		printf("Producer sent %d, buffer size=%d\n", i, nelem(&self->buffer));
+	}
+	pthread_exit(NULL);
+}
+
+void *consume(void *streams){
+	Stream *prod = ((Args*)streams)->prod;
+	int id = ((Args*)streams)->self->id;
+	int i;
+	void *value;
+	
+	for (i=0; i<10; i++){
+		value = get(prod);
+		printf("\t\t\t\t\t\t\tConsumer(%i): got %ld\n", id, *(long*)value);
+		free(value);
+	}
 }
 
 void connect(int id){
 	bool flag = 1;
-	
+	pthread_t thread;
+	pthread_attr_t attr;
+	Stream stream;
+	Args args;
 	
 	if (numConsumers >= 10){
 		printf("\nThe maximum number of consumers (10) are already connected.\nPlease disconnect a consumer, or wait for a consumer to disconnect before proceeding.\n\n");
@@ -85,7 +138,14 @@ void connect(int id){
 		
 	}
 	
+	init_stream(&args, &stream, NULL);
+
+
+	pthread_create(&thread, &attr, consume, (void*)&args);
+	
 	consumers[numConsumers].ID = id;
+	consumers[numConsumers].thread = thread;
+	consumers[numConsumers].args = args;
 	consumers[numConsumers++].tokenIndex = currentIndex;
 	return;
 }

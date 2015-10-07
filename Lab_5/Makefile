@@ -1,4 +1,4 @@
-obj-m := ProdCons.o
+obj-m := ProdCons.o 07-prod-cons.o
 
 CDIR := $(shell uname -r)
 MDIR := $(shell pwd)
@@ -11,6 +11,10 @@ all: ProdCons
 
 ProdCons: ProdCons.c
 	gcc ProdCons.c -lpthread -o ProdCons -std=c99 
+
+07-prod-cons: 07-prod-cons.c
+	gcc 07-prod-cons.c -lpthread -o	07-prod-cons -std=c99
+	
 
 clean:
 	rm ProdCons
