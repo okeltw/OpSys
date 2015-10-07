@@ -30,14 +30,15 @@ int kthread_timer(void *data){
 	int count = 0;
 	printk(KERN_EMERG "Starting...\n");
 
-	while(count<10){
+	while(count<1000000000){
 		count++;
 		printk("Timer Count: %i\n", count);
+		flag = kthread_should_stop();
+		if(flag) kthread_stop(ts);
 	}
 
 	//Execution finished, cleanup.
-	flag = kthread_should_stop();
-	if(flag) kthread_stop(ts);
+
 	flag = 1;
 	printk("(kthread_timer) Finished main.");
 	return 0;
