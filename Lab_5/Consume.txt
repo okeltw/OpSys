@@ -1,0 +1,56 @@
+FLOW:
+
+A,B,C... connected
+A consumes
+Prod puts (1)
+A = [1], B = [], C=[]...
+A consumes
+Prod puts (2) //keep a local var currentToken, Prod.put(currentToken++) or something
+A = [1 2], B=[]...
+A consumes
+Prod puts (3) //NOTE: Buffer should still have 1,2 for B,C...
+A = [1 2 3], B = [] ...
+B consumes
+Prod puts nothing //flag behind, if flag do not puts
+A = [1 2 3], B = [1]
+---------------------
+
+Pseudocode:
+
+/*
+	NOTE: syntax may/may not be correct.  this is just to feel out the necessary algorithms.
+*/
+
+void consume //Connect each new thread to this function
+	if not behind
+		Notify put
+		Sniff put value //OR scan for most recent - see scan function below - queue.Scan(&consumer, currentIndex) where currentIndex is the most recent/final value
+		
+	else
+		grab mutex lock
+		if consumer needs queue head
+			if this is the last consumer to need queue head
+				consumer.tokens = dequeue
+			else
+				consumer.tokens = peek
+		else
+			queue.Scan(&consumer, currentIndex) //See scan below 
+		release mutex lock
+
+//Thought: add menu option to consume multiple threads. See what happens....	
+
+void put //Single producer connects here
+	//Since we notify in consume, put will happen only when needed
+	grab mutex lock
+	queue.enqueue(currentToken++)
+	notify consumer
+	release mutex lock
+	
+void queue.scan(&consumer, index)
+	void *obj;
+	obj = queue.head
+	
+	loop until index
+		obj = obj->next
+		
+	consumer.tokens = obj.data
