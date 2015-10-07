@@ -36,7 +36,7 @@ typedef struct {
 	int ID;
 	pthread_t thread;	
 	Args args;
-	int tokenIndex;	
+	bool needToken;	
 } ConnectEntry;
 
 ConnectEntry consumers[10];
@@ -59,14 +59,27 @@ int menu(void){
 
 void *get(void *stream){
 	void *ret;
-
+	int id = ((Args*)streams)->self->id;
+	bool flag = 0;
+	
 	pthread_mutex_lock(Lock);
 	while (isEmpty(Q))
 		pthread_cond_wait(Notifier, Lock);
 	
 	//TODO: check if last consumer to collect.  if so, dequeue.  else, just peek.
-
-	ret = (void*)dequeue(Q); 
+	for(int i = 0; i < numConsumers; i++){}
+		if(consumers[i].needToken)
+			flag = 1; 
+	}
+	
+	//TODO: ISSUE! need a way to peek at further elements.
+	// That is, if A consumes twice, we need to peek two layers in	
+	if(flag)
+		ret = peek(Q);
+	else
+		ret = dequeue(Q);
+	
+	consumers[i].needToken
 	pthread_cond_signal(Notifier);
 	pthread_mutex_unlock(Lock);
 	return ret;
@@ -111,6 +124,19 @@ void *consume(void *streams){
 		printf("\t\t\t\t\t\t\tConsumer(%i): got %ld\n", id, *(long*)value);
 		free(value);
 	}
+}
+
+void init_stream(Args *args, Stream *self, void *data){
+	if (self != NULL){
+		self->next = NULL;
+		self->args = data;
+		self->id = 1;
+		init_queue(&self->buffer);
+		pthread_mutex_init(&self->lock, NULL);
+		pthread_cond_init(&self->notifier, NULL);
+	}
+	args->self = self;
+	args->prod = NULL;
 }
 
 void connect(int id){
@@ -178,13 +204,16 @@ void printIDs(void){
 	printf("\n");
 }
 
+/* free allocated space in the queue - see queue_a.h */
+void kill_stream(Stream *stream) { destroy_queue(&stream->buffer); }
+
 int main(void){
 	int nav = 0;
 	int id = 0;
 	numConsumers = 0;
 	currentIndex = 0;
-	Stream stream;
-	stream.id = 1;
+	Stream *stream;
+	stream->id = 1;
 
 	while(nav!=7){
 		nav = menu();
@@ -223,10 +252,17 @@ int main(void){
 				break;
 		}		
 
-
+		//Cleanup
+		for(int i = 0;i < numConsumers; i++){
+			pthread_cancel(consumers[i].thread);		
+		}
+		
+		kill_stream(stream);
 
 	}
 	
+	
+
 	return 0;
 }
 	
