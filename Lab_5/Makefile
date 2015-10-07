@@ -1,17 +1,17 @@
 obj-m := ProdCons.o
 
+CDIR := $(shell uname -r)
+MDIR := $(shell pwd)
+LIB = -L/usr/include 
+INC = -I/usr/include
 
-KVERSION := $(shell uname -r)
-KDIR := /lib/modules/$(KVERSION)/build
-PWD := $(shell pwd)
 
 
-default:
-	$(MAKE) -C $(KDIR) M=$(PWD) modules -lpthread
+all: ProdCons
+
+ProdCons: ProdCons.c
+	gcc ProdCons.c -lpthread -o ProdCons -std=c99 
 
 clean:
-	$(MAKE) -C $(KDIR) M=$(PWD) clean
+	rm ProdCons
 
-rmall:
-	rmall '*.o' '*.ko' '*.mod.c' Mod* mod* '.[a-z]*' '.tmp_versions/*'
-	rmdall .tmp_versions
