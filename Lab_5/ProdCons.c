@@ -67,7 +67,7 @@ void *get(void *stream){
 		pthread_cond_wait(Notifier, Lock);
 	
 	//TODO: check if last consumer to collect.  if so, dequeue.  else, just peek.
-	for(int i = 0; i < numConsumers; i++){}
+	for(int i = 0; i < numConsumers; i++){
 		if(consumers[i].needToken)
 			flag = 1; 
 	}

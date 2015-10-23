@@ -36,7 +36,7 @@ typedef struct {
 	int ID;
 	pthread_t thread;	
 	Args args;
-	int tokenIndex;	
+	bool needToken;	
 } ConnectEntry;
 
 ConnectEntry consumers[10];
@@ -68,16 +68,18 @@ void *get(void *stream){
 	
 	//TODO: check if last consumer to collect.  if so, dequeue.  else, just peek.
 	for(int i = 0; i < numConsumers; i++){}
-		if(consumers[i].tokenIndex = peek(Q)) && consumers[tokenIndex].ID != id)
+		if(consumers[i].needToken)
 			flag = 1; 
 	}
-		
+	
+	//TODO: ISSUE! need a way to peek at further elements.
+	// That is, if A consumes twice, we need to peek two layers in	
 	if(flag)
 		ret = peek(Q);
 	else
 		ret = dequeue(Q);
 	
-	
+	consumers[i].needToken
 	pthread_cond_signal(Notifier);
 	pthread_mutex_unlock(Lock);
 	return ret;
