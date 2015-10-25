@@ -28,6 +28,8 @@ int delay = 30;
 int count = 0;
 struct acpi_buffer bst_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
 struct acpi_buffer bif_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+int state = 0; //To signal when to display messages
+bool batLow_msg = 0; //Signals battery low message
 
 /*
 <summary>
@@ -70,24 +72,37 @@ int battcheck(struct work_struct *work){
 	if(bst_result){
 		bat_remain_cap = bst_result->package.elements[2].integer.value;
 		
-		if(bat_remain_cap == bat_low)
+		if(bat_remain_cap <= bat_low && !batLow_msg){
 			printk(KERN_INFO "[Battcheck] Battery is low\n");
-		else if(bat_remain_cap == last_full_cap)
+			batLow_msg = 1;
+		}
+		else if(bat_remain_cap == last_full_cap) {
 			printk(KERN_INFO "[Battcheck] Battery is full\n");
+			batLow_msg = 0;
+		}
+		else
+			batLow_msg = 0;
 			
 		bat_state = bst_result->package.elements[0].integer.value;
 		if(bat_state == 1){ //Discharging
 			kernel_fpu_begin(); //Start the fpu to do proper calculations
 			x = bat_remain_cap*100;
 			x = x/last_full_cap;
-			printk(KERN_INFO "[Battcheck] Battery is discharging...%d%%dmes battery remaining\n", x);
+			if(state!=1){ //If we are not in discharge state, send the message.
+				printk(KERN_INFO "[Battcheck] Battery is discharging...%d%% battery remaining\n", x);
+				state = 1;
+			}
+			
 			kernel_fpu_end(); //Done with fpu
 		}
 		else if(bat_state==2){ //Charging
 			kernel_fpu_begin(); //Start the fpu to do proper calculations
 			x = bat_remain_cap*100;
 			x = x /last_full_cap;
-			printk(KERN_INFO "[Battcheck] Battery is charging...%d%% battery available\n", x);
+			if(state!=2){ //If we are not in charge state, send the message.
+				printk(KERN_INFO "[Battcheck] Battery is charging...%d%% battery available\n", x);
+				state = 2;
+			}
 			kernel_fpu_end(); //Done with fpu
 		}
 		else{
