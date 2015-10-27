@@ -53,8 +53,8 @@ int temp;
 char stat_buffer[BUFFER_SIZE];
 char info_buffer[BUFFER_SIZE];
 bool infoFlag = false, statFlag = false;
-
-
+int previous_vol = 0;
+int custom_rate = 0;
 
 ssize_t infoRead(struct file *fd, char __user *buf, size_t c, loff_t *off) {
 	if(infoFlag){
@@ -147,7 +147,14 @@ int battcheck(struct work_struct *work){
 
 		x = bat_remain_cap*100;
 		x = x/last_full_cap;
-		
+
+    if(bat_present_rate < 0){
+      custom_rate = (previous_vol - bat_present_vol) / 60;
+      bat_present_rate = custom_rate > 0 ? custom_rate : custom_rate * -1;
+      previous_vol = bat_present_vol;
+    }
+
+    kernel_fpu_end();
 
 		if(bat_state == 1 && state !=1){ //Discharging
 			 //If we are not in discharge state, send the message.
@@ -166,8 +173,7 @@ int battcheck(struct work_struct *work){
 			return 0;
 		}
 
-		kernel_fpu_end();
-		//kfree(bst_result);
+		kfree(bst_result);
 	}
 
 	//DEBUG
@@ -208,7 +214,7 @@ int init_module(void){
 		type = bif_result->package.elements[11].string.pointer;
 		oem = bif_result->package.elements[12].string.pointer;
 
-		//kfree(bif_result);
+		kfree(bif_result);
 	}
 
 	proc_entry_info = proc_create("battery_info.txt", 438, NULL, &infoOp);
