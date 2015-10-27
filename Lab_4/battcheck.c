@@ -64,6 +64,7 @@ ssize_t infoRead(struct file *fd, char __user *buf, size_t c, loff_t *off) {
 
 	int len = 0;
 
+	//printk("%d %d %d %d %d %d %d %d %d %s %s %s %s\n", power_unit, design_capacity, last_full_cap, bat_tech, design_voltage, bat_warn, bat_low, gran1, gran2, model, serial, type, oem);
 	sprintf(info_buffer, "%d %d %d %d %d %d %d %d %d %s %s %s %s\n", power_unit, design_capacity, last_full_cap, bat_tech, design_voltage, bat_warn, bat_low, gran1, gran2, model, serial, type, oem);
 	len = strlen(info_buffer);
 	if(copy_to_user(buf, info_buffer, len)) return -EFAULT;
@@ -107,13 +108,13 @@ static const struct file_operations statOp = {
 </parameters>
 <output>
 	V1 will output kernel messages.
-	Further versions may write to files or utilize a java applet.
+	Further versions may utilize a java applet.
 </output>
 */
 int battcheck(struct work_struct *work){
 	// status is an integer that holds the return value from the functions.
 	status = acpi_get_handle(NULL, "\\_SB_.PCI0.BAT0", &handle); //grab the handle for the battery acpi.
-	status = acpi_evaluate_object(handle, "_BIF", NULL, &bif_buffer); // use the handle to fill the bif_buffer
+
 	status = acpi_evaluate_object(handle, "_BST", NULL, &bst_buffer); //use the handle to fill the bst_buffer
 
 	if(ACPI_FAILURE(status)){
@@ -121,7 +122,71 @@ int battcheck(struct work_struct *work){
 		return -1;
 	}
 
+
+
+	// BST == info about battery state
+	bst_result = bst_buffer.pointer; // populate the result with the pointer
+	if(bst_result){
+		bat_state = bst_result->package.elements[0].integer.value;
+		bat_present_rate = bst_result->package.elements[1].integer.value;
+		bat_remain_cap = bst_result->package.elements[2].integer.value;
+		bat_present_vol = bst_result->package.elements[3].integer.value;
+
+
+		if(bat_remain_cap <= bat_low && batLow_msg!=1){
+			printk(KERN_INFO "[Battcheck] Battery is low\n");
+			batLow_msg = 1;
+		}
+		else if(bat_remain_cap == last_full_cap && batLow_msg!=0) {
+			printk(KERN_INFO "[Battcheck] Battery is full\n");
+			batLow_msg = 0;
+		}
+
+
+		kernel_fpu_begin(); //Start the fpu to do proper calculations
+
+		x = bat_remain_cap*100;
+		x = x/last_full_cap;
+		
+
+		if(bat_state == 1 && state !=1){ //Discharging
+			 //If we are not in discharge state, send the message.
+			printk(KERN_INFO "[Battcheck] Battery is discharging...%d%% battery remaining\n", x);
+			state = 1;
+		}
+		else if(bat_state==2 && state!=2){ //Charging
+			printk(KERN_INFO "[Battcheck] Battery is charging...%d%% battery available\n", x);
+			state = 2;
+		}
+		else if(bat_state != 1 && bat_state != 2 ){
+			printk(KERN_EMERG "[Battcheck] Battery is critically low; Capacity = %d%% \n", x);
+			kernel_fpu_end();
+			queue_delayed_work(queue, dwork, delay*HZ); //queue the message to appear at the specified delay
+
+			return 0;
+		}
+
+		kernel_fpu_end();
+		//kfree(bst_result);
+	}
+
+	//DEBUG
+	//printk(KERN_EMERG "[Battcheck] Battery State: %d\nBattery Remaining: %d %s\n", bat_state, bat_remain_cap, unit);
+	//printk(KERN_EMERG "[Battcheck] Power Unit: %d\nLast Full Charge: %d %s\nLow Battery:%d %s", power_unit, last_full_cap, unit, bat_low, unit);
+	queue_delayed_work(queue, dwork, HZ); //Schedule the next check
+	return 0;
+
+}
+
+/*
+	Initialize.  Set up work queue, attach battcheck, etc.
+*/
+int init_module(void){
+	printk(KERN_EMERG "[Battcheck] Module is loading...\n");
+
 	// BIF == info about battery
+	status = acpi_get_handle(NULL, "\\_SB_.PCI0.BAT0", &handle); //grab the handle for the battery acpi.
+	status = acpi_evaluate_object(handle, "_BIF", NULL, &bif_buffer); // use the handle to fill the bif_buffer
 	bif_result = bif_buffer.pointer; // populate the result with the pointer
 	if(bif_result){
 		power_unit = bif_result->package.elements[0].integer.value; // fill power unit specification
@@ -143,65 +208,8 @@ int battcheck(struct work_struct *work){
 		type = bif_result->package.elements[11].string.pointer;
 		oem = bif_result->package.elements[12].string.pointer;
 
-		kfree(bif_result);
+		//kfree(bif_result);
 	}
-
-	// BST == info about battery state
-	bst_result = bst_buffer.pointer; // populate the result with the pointer
-	if(bst_result){
-		bat_state = bst_result->package.elements[0].integer.value;
-		bat_present_rate = bst_result->package.elements[1].integer.value;
-		bat_remain_cap = bst_result->package.elements[2].integer.value;
-		bat_present_vol = bst_result->package.elements[3].integer.value;
-		
-		
-		if(bat_remain_cap <= bat_low && batLow_msg!=1){
-			printk(KERN_INFO "[Battcheck] Battery is low\n");
-			batLow_msg = 1;
-		}
-		else if(bat_remain_cap == last_full_cap && batLow_msg!=0) {
-			printk(KERN_INFO "[Battcheck] Battery is full\n");
-			batLow_msg = 0;
-		}
-
-		
-		kernel_fpu_begin(); //Start the fpu to do proper calculations
-		x = bat_remain_cap*100;
-		x = x/last_full_cap;
-		kernel_fpu_end();
-		
-		if(bat_state == 1 && state !=1){ //Discharging
-			 //If we are not in discharge state, send the message.
-			printk(KERN_INFO "[Battcheck] Battery is discharging...%d%% battery remaining\n", x);
-			state = 1;
-		}
-		else if(bat_state==2 && state!=2){ //Charging
-			printk(KERN_INFO "[Battcheck] Battery is charging...%d%% battery available\n", x);
-			state = 2;
-		}
-		else{
-			printk(KERN_EMERG "[Battcheck] Battery is critically low; Capacity = %d%% \n", x);
-			
-			queue_delayed_work(queue, dwork, delay*HZ); //queue the message to appear at the specified delay
-			return 0;
-		}
-
-		kfree(bst_result);
-	}
-
-	//DEBUG
-	printk(KERN_EMERG "[Battcheck] Battery State: %d\nBattery Remaining: %d %s\n", bat_state, bat_remain_cap, unit);
-	printk(KERN_EMERG "[Battcheck] Power Unit: %d\nLast Full Charge: %d %s\nLow Battery:%d %s", power_unit, last_full_cap, unit, bat_low, unit);
-	queue_delayed_work(queue, dwork, HZ); //Schedule the next check
-	return 0;
-
-}
-
-/*
-	Initialize.  Set up work queue, attach battcheck, etc.
-*/
-int init_module(void){
-	printk(KERN_EMERG "[Battcheck] Module is loading...\n");
 
 	proc_entry_info = proc_create("battery_info.txt", 438, NULL, &infoOp);
 	strcpy(info_buffer, "Initialize\n");
