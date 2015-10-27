@@ -26,9 +26,7 @@ MODULE_LICENSE("GPL");
 
 struct workqueue_struct *queue;
 struct delayed_work *dwork;
-acpi_status status;
-acpi_handle handle;
-union acpi_object *bif_result, *bst_result;
+
 
 //BIF
 struct proc_dir_entry *proc_entry_info, *root_dir_info = NULL;
@@ -43,8 +41,7 @@ char unit[10];
 int x;
 int delay = 30;
 int count = 0;
-struct acpi_buffer bst_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-struct acpi_buffer bif_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+
 int state = 0; //To signal when to display messages
 int batLow_msg = -1; //Signals battery low message
 
@@ -112,6 +109,11 @@ static const struct file_operations statOp = {
 </output>
 */
 int battcheck(struct work_struct *work){
+  acpi_status status;
+  acpi_handle handle;
+  union acpi_object *bif_result, *bst_result;
+  struct acpi_buffer bst_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+  struct acpi_buffer bif_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
 	// status is an integer that holds the return value from the functions.
 	status = acpi_get_handle(NULL, "\\_SB_.PCI0.BAT0", &handle); //grab the handle for the battery acpi.
 
