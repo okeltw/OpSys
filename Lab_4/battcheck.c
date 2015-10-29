@@ -22,10 +22,11 @@ MODULE_LICENSE("GPL");
 */
 
 #define BUFFER_SIZE 512
+#define CALC_DELAY 1
 
 
 struct workqueue_struct *queue;
-struct delayed_work *dwork;
+struct delayed_work *dwork, *calc;
 
 
 //BIF
@@ -37,6 +38,11 @@ char *model, *serial, *type, *oem;
 struct proc_dir_entry *proc_entry_stat, *root_dir_stat = NULL;
 int bat_state, bat_present_rate, bat_remain_cap, bat_present_vol;
 
+acpi_status status;
+acpi_handle bsthandle, bifhandle;
+union acpi_object *bst_result, *bif_result;
+struct acpi_buffer bst_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+struct acpi_buffer bif_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
 char unit[10];
 int x;
 int delay = 30;
@@ -50,7 +56,8 @@ int temp;
 char stat_buffer[BUFFER_SIZE];
 char info_buffer[BUFFER_SIZE];
 bool infoFlag = false, statFlag = false;
-int previous_vol = 0;
+int previous_cap = 0;
+int capacitance = 0;
 int custom_rate = 0;
 
 ssize_t infoRead(struct file *fd, char __user *buf, size_t c, loff_t *off) {
@@ -77,6 +84,8 @@ ssize_t statRead(struct file *fd, char __user *buf, size_t c, loff_t *off) {
 	}
 
 	int len = 0;
+	bat_present_rate = bat_present_rate<0?custom_rate:bat_present_rate;
+	printk("===========\n[Battcheck] Bat State: %d\nBat Present Rate: %d\nBat Remain Cap: %d\nBat Present Vol: %d\n==============\n", bat_state, bat_present_rate, bat_remain_cap, bat_present_vol);
 	sprintf(stat_buffer, "%d %d %d %d\n", bat_state, bat_present_rate, bat_remain_cap, bat_present_vol);
 	len = strlen(stat_buffer);
 	if(copy_to_user(buf, stat_buffer, len)) return -EFAULT;
@@ -109,15 +118,9 @@ static const struct file_operations statOp = {
 </output>
 */
 int battcheck(struct work_struct *work){
-  acpi_status status;
-  acpi_handle handle;
-  union acpi_object *bif_result, *bst_result;
-  struct acpi_buffer bst_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-  struct acpi_buffer bif_buffer = { ACPI_ALLOCATE_BUFFER, NULL };
 	// status is an integer that holds the return value from the functions.
-	status = acpi_get_handle(NULL, "\\_SB_.PCI0.BAT0", &handle); //grab the handle for the battery acpi.
-
-	status = acpi_evaluate_object(handle, "_BST", NULL, &bst_buffer); //use the handle to fill the bst_buffer
+	status = acpi_get_handle(NULL, "\\_SB_.PCI0.BAT0", &bsthandle); //grab the handle for the battery acpi.
+	status = acpi_evaluate_object(bsthandle, "_BST", NULL, &bst_buffer); //use the handle to fill the bst_buffer
 
 	if(ACPI_FAILURE(status)){
 		printk(KERN_EMERG "[Battcheck] acpi call could not get the handle.\n"); // If the status indicates ACPI failure, indicate so and failout.
@@ -134,7 +137,7 @@ int battcheck(struct work_struct *work){
 		bat_remain_cap = bst_result->package.elements[2].integer.value;
 		bat_present_vol = bst_result->package.elements[3].integer.value;
 
-
+		//printk("[Battcheck] State = %i\n", bat_state);
 		if(bat_remain_cap <= bat_low && batLow_msg!=1){
 			printk(KERN_INFO "[Battcheck] Battery is low\n");
 			batLow_msg = 1;
@@ -144,38 +147,32 @@ int battcheck(struct work_struct *work){
 			batLow_msg = 0;
 		}
 
-
-		kernel_fpu_begin(); //Start the fpu to do proper calculations
-
 		x = bat_remain_cap*100;
 		x = x/last_full_cap;
 
-    if(bat_present_rate < 0){
-      custom_rate = (previous_vol - bat_present_vol) / 60;
-      bat_present_rate = custom_rate > 0 ? custom_rate : custom_rate * -1;
-      previous_vol = bat_present_vol;
-    }
-
-    kernel_fpu_end();
-
-		if(bat_state == 1 && state !=1){ //Discharging
-			 //If we are not in discharge state, send the message.
-			printk(KERN_INFO "[Battcheck] Battery is discharging...%d%% battery remaining\n", x);
+		if (bat_state == 0 && state != 1){
+			printk(KERN_INFO "[Battcheck] Battery is full.\n");
 			state = 1;
 		}
-		else if(bat_state==2 && state!=2){ //Charging
-			printk(KERN_INFO "[Battcheck] Battery is charging...%d%% battery available\n", x);
+		if(bat_state == 1 && state !=2){ //Discharging
+			 //If we are not in discharge state, send the message.
+			printk(KERN_INFO "[Battcheck] Battery is discharging...%d%% battery remaining\n", x);
 			state = 2;
 		}
-		else if(bat_state != 1 && bat_state != 2 ){
+		else if(bat_state==2 && state!=3){ //Charging
+			printk(KERN_INFO "[Battcheck] Battery is charging...%d%% battery available\n", x);
+			state = 3;
+		}
+
+
+		if (bat_remain_cap <= bat_warn){
 			printk(KERN_EMERG "[Battcheck] Battery is critically low; Capacity = %d%% \n", x);
-			kernel_fpu_end();
 			queue_delayed_work(queue, dwork, delay*HZ); //queue the message to appear at the specified delay
 
 			return 0;
 		}
 
-		kfree(bst_result);
+		//kfree(bst_result);
 	}
 
 	//DEBUG
@@ -186,15 +183,30 @@ int battcheck(struct work_struct *work){
 
 }
 
+int calcRemain(struct work_struct *work){
+	capacitance = bat_remain_cap;
+	if (bat_present_rate < 0 && previous_cap != capacitance) {
+		custom_rate = (previous_cap - capacitance)/50;
+		custom_rate = custom_rate < 0 ? custom_rate*-1 : custom_rate;
+		printk("[calcRemain] Present Rate: %d, Custom Rate: %d\n", bat_present_rate, custom_rate);
+		previous_cap = capacitance;
+		bat_present_rate = custom_rate;
+	}
+
+	queue_delayed_work(queue, calc, CALC_DELAY*HZ);
+	return 0;
+}
+
 /*
 	Initialize.  Set up work queue, attach battcheck, etc.
 */
 int init_module(void){
 	printk(KERN_EMERG "[Battcheck] Module is loading...\n");
 
+
 	// BIF == info about battery
-	status = acpi_get_handle(NULL, "\\_SB_.PCI0.BAT0", &handle); //grab the handle for the battery acpi.
-	status = acpi_evaluate_object(handle, "_BIF", NULL, &bif_buffer); // use the handle to fill the bif_buffer
+	status = acpi_get_handle(NULL, "\\_SB_.PCI0.BAT0", &bifhandle); //grab the handle for the battery acpi.
+	status = acpi_evaluate_object(bifhandle, "_BIF", NULL, &bif_buffer); // use the handle to fill the bif_buffer
 	bif_result = bif_buffer.pointer; // populate the result with the pointer
 	if(bif_result){
 		power_unit = bif_result->package.elements[0].integer.value; // fill power unit specification
@@ -216,7 +228,7 @@ int init_module(void){
 		type = bif_result->package.elements[11].string.pointer;
 		oem = bif_result->package.elements[12].string.pointer;
 
-		kfree(bif_result);
+		//kfree(bif_result);
 	}
 
 	proc_entry_info = proc_create("battery_info.txt", 438, NULL, &infoOp);
@@ -240,7 +252,12 @@ int init_module(void){
 	queue = create_workqueue("queue"); //set up queue
 	dwork = (struct delayed_work*)kmalloc(sizeof(struct delayed_work), GFP_KERNEL); //allocate work queue
 	INIT_DELAYED_WORK((struct delayed_work*) dwork, battcheck); // attach battcheck to work
+
+	calc = (struct delayed_work*)kmalloc(sizeof(struct delayed_work), GFP_KERNEL);
+	INIT_DELAYED_WORK((struct delayed_work*) calc, calcRemain);
+
 	queue_delayed_work(queue, dwork, HZ); // schedule work
+	queue_delayed_work(queue, calc, CALC_DELAY*HZ);
 	return 0;
 }
 
@@ -248,11 +265,19 @@ int init_module(void){
 	Cleanup.  Flush work queue; cancel remaining work.
 */
 void cleanup_module(void){
+	remove_proc_entry("battery_info.txt", root_dir_info);
+	remove_proc_entry("battery_stat.txt", root_dir_stat);
+
 	flush_workqueue(queue); //Flush pending work
 	if(dwork && delayed_work_pending(dwork)){
 		cancel_delayed_work(dwork);  //Cancel running work, if any work is running
 		flush_workqueue(queue);		 //Flush again
 	}
-	destroy_workqueue(queue); //Destroy queue to free resources
+	if (calc && delayed_work_pending(calc)){
+		cancel_delayed_work(calc);
+		flush_workqueue(queue);
+	}
+	
+  	destroy_workqueue(queue); //Destroy queue to free resources
 	printk(KERN_EMERG "[Battcheck] Module unloaded successfully\n");
 }

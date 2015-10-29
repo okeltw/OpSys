@@ -149,7 +149,7 @@ class BattFrame extends JFrame {
 	    input = sta.readLine();
 	    t = new StringTokenizer(input, " ");
 	    charge_state = Integer.parseInt(t.nextToken());
-	    rate = Integer.parseInt(t.nextToken());
+	    rate = Integer.parseInt(t.nextToken()); //Per experimentation, 400-500 reflects roughly an hour
 	    rem = Integer.parseInt(t.nextToken());
 
 	    /* Set values in applet sections */
