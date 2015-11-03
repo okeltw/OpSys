@@ -85,7 +85,7 @@ ssize_t statRead(struct file *fd, char __user *buf, size_t c, loff_t *off) {
 
 	int len = 0;
 	bat_present_rate = bat_present_rate<0?custom_rate:bat_present_rate;
-	printk("===========\n[Battcheck] Bat State: %d\nBat Present Rate: %d\nBat Remain Cap: %d\nBat Present Vol: %d\n==============\n", bat_state, bat_present_rate, bat_remain_cap, bat_present_vol);
+	//printk("===========\n[Battcheck] Bat State: %d\nBat Present Rate: %d\nBat Remain Cap: %d\nBat Present Vol: %d\n==============\n", bat_state, bat_present_rate, bat_remain_cap, bat_present_vol);
 	sprintf(stat_buffer, "%d %d %d %d\n", bat_state, bat_present_rate, bat_remain_cap, bat_present_vol);
 	len = strlen(stat_buffer);
 	if(copy_to_user(buf, stat_buffer, len)) return -EFAULT;
@@ -186,14 +186,14 @@ int battcheck(struct work_struct *work){
 int calcRemain(struct work_struct *work){
 	capacitance = bat_remain_cap;
 	if (bat_present_rate < 0 && previous_cap != capacitance) {
-		custom_rate = (previous_cap - capacitance)/100;
+		custom_rate = (previous_cap - capacitance)/10;
 		custom_rate = custom_rate < 0 ? custom_rate*-1 : custom_rate;
-		printk("[calcRemain] Present Rate: %d, Custom Rate: %d\n", bat_present_rate, custom_rate);
+		//printk("[calcRemain] Present Rate: %d, Custom Rate: %d\n", bat_present_rate, custom_rate);
 		previous_cap = capacitance;
 		bat_present_rate = custom_rate;
 	}
 
-	queue_delayed_work(queue, calc, CALC_DELAY*HZ);
+	queue_delayed_work(queue, calc, HZ);
 	return 0;
 }
 
