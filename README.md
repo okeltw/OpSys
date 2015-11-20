@@ -13,9 +13,15 @@ Multiple threading.
 Monitor battery status
 - ACPI calls & decompiling. Monitor battery status and provide user with alerts at certain battery levels.
 - Optional: utilize java widget to display battery info.
-<Unfinished>
 
-# Lab_5
+
+# Lab_5 <optional>
 Pthreads, streams, locks
 - Create a buffer such that one "Producer" can feed many "Consumers" with data.
 - Use semaphores to pull the data and work with it.
+<unfinished>
+
+# Lab 6
+Device Drivers, R/W Semaphores
+- Simulate a device driver with a major/minor number
+- Implement a R/W Sempahore to allow Read and Write interface from multiple sources
