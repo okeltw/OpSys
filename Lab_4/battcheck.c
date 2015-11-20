@@ -186,7 +186,7 @@ int battcheck(struct work_struct *work){
 int calcRemain(struct work_struct *work){
 	capacitance = bat_remain_cap;
 	if (bat_present_rate < 0 && previous_cap != capacitance) {
-		custom_rate = (previous_cap - capacitance)/50;
+		custom_rate = (previous_cap - capacitance);///10;
 		custom_rate = custom_rate < 0 ? custom_rate*-1 : custom_rate;
 		//printk("[calcRemain] Present Rate: %d, Custom Rate: %d\n", bat_present_rate, custom_rate);
 		previous_cap = capacitance;
@@ -277,7 +277,7 @@ void cleanup_module(void){
 		cancel_delayed_work(calc);
 		flush_workqueue(queue);
 	}
-	
+
   	destroy_workqueue(queue); //Destroy queue to free resources
 	printk(KERN_EMERG "[Battcheck] Module unloaded successfully\n");
 }

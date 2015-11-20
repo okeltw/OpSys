@@ -15,7 +15,7 @@
 
   Credit:
   Prof Franco - Lab 6 description
-  Kevin Farley - general ideas and direction
+  Kevin Farley - general ideas and direction, run and stop scripts
 */
 
 MODULE_LICENSE("GPL");

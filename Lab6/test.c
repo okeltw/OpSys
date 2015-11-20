@@ -34,6 +34,8 @@ int main(int argc, char **argv){
   else if(argc == 3)
     len = strlen(argv[2]);
 
+  //printf("len=%i\n", len);
+
   if(!strcmp("read", argv[1])){
     read(fd, rd_buf, sizeof(rd_buf));
     printf("Read device data: %s\n", rd_buf);
@@ -41,6 +43,8 @@ int main(int argc, char **argv){
   else if(!strcmp("write", argv[1])){
     strncpy(wr_buf, argv[2], len);
     write(fd, wr_buf, len);
+    wr_buf[len] = '\0';
+    //printf("len=%i\n", len);
     printf("Wrote to device: %s\n", wr_buf);
   }
 

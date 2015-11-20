@@ -1,5 +1,6 @@
 # script to insmod kernel module & initialize char device
 # Borrowed from Kevin Farley with permission
+make
 sudo insmod lab6.ko
 MAJOR= dmesg | tail -n 1 | awk "{print \$5}"
 if [ -z $MAJOR ]

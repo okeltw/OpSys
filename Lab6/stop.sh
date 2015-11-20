@@ -3,4 +3,5 @@
 sudo rmmod lab6
 sudo rm /dev/interface
 rm test
+make clean
 exit;
