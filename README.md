@@ -15,11 +15,11 @@ Monitor battery status
 - Optional: utilize java widget to display battery info.
 
 
-# Lab_5 <optional>
+# Lab_5 [optional]
 Pthreads, streams, locks
 - Create a buffer such that one "Producer" can feed many "Consumers" with data.
 - Use semaphores to pull the data and work with it.
-<unfinished>
+[unfinished]
 
 # Lab 6
 Device Drivers, R/W Semaphores
