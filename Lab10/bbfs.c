@@ -126,13 +126,15 @@ int bb_mknod(const char *path, mode_t mode, dev_t dev) {
       retstat = open(fpath, O_CREAT | O_EXCL | O_WRONLY, mode);
       if (retstat < 0) retstat = bb_error("bb_mknod open");
       else {
-	 retstat = close(retstat);
-	 if (retstat < 0) retstat = bb_error("bb_mknod close");
+        retstat = close(retstat);
+        if (retstat < 0) retstat = bb_error("bb_mknod close");
       }
-   } else if (S_ISFIFO(mode)) {
+   } 
+   else if (S_ISFIFO(mode)) {
       retstat = mkfifo(fpath, mode);
       if (retstat < 0) retstat = bb_error("bb_mknod mkfifo");
-   } else {
+   } 
+   else {
       retstat = mknod(fpath, mode, dev);
       if (retstat < 0) retstat = bb_error("bb_mknod mknod");
    }
