@@ -14,7 +14,7 @@
 /* One of these per stream.
    Holds:  the mutex lock and notifier condition variables
            a buffer of tokens taken from a producer
-           a structure with information regarding the processing of tokens
+           a structure with information regarding the processing of tokens 
            an identity
 */
 typedef struct stream_struct {
@@ -34,10 +34,9 @@ typedef struct {
 
 typedef struct {
 	int ID;
-	pthread_t thread;
+	pthread_t thread;	
 	Args args;
-	bool needToken;
-  int tokenIndex;
+	bool needToken;	
 } ConnectEntry;
 
 ConnectEntry consumers[10];
@@ -52,7 +51,7 @@ int menu(void){
 
 	printf("1) Connect consumer\n2) Disconnect Consumer\n3) Print Connected Consumers\n4) Consume\n5) Cancel Consume Request\n6) Check Buffers\n7) Quit\n>>> ");
 
-
+	
 	scanf("%i",&choice);
 
 	return choice;
@@ -60,32 +59,27 @@ int menu(void){
 
 void *get(void *stream){
 	void *ret;
-	int id = ((Args*)stream)->self->id;
+	int id = ((Args*)streams)->self->id;
 	bool flag = 0;
-  int i;
-
+	
 	pthread_mutex_lock(Lock);
 	while (isEmpty(Q))
 		pthread_cond_wait(Notifier, Lock);
-
+	
 	//TODO: check if last consumer to collect.  if so, dequeue.  else, just peek.
-<<<<<<< HEAD:Lab5/ProdCons.c
-  for(i = 0; i < numConsumers; i++){
-=======
-	for(int i = 0; i < numConsumers; i++){
->>>>>>> 2aaee2b05c2d310eab017df92dd3d8b6f8e0b1e8:Lab_5/ProdCons.c
+	for(int i = 0; i < numConsumers; i++){}
 		if(consumers[i].needToken)
-			flag = 1;
+			flag = 1; 
 	}
-
+	
 	//TODO: ISSUE! need a way to peek at further elements.
-	// That is, if A consumes twice, we need to peek two layers in
+	// That is, if A consumes twice, we need to peek two layers in	
 	if(flag)
-		ret = (int*)peek(Q, 0);
+		ret = peek(Q);
 	else
-		ret = (int*)dequeue(Q);
-
-	//consumers[i].needToken;
+		ret = dequeue(Q);
+	
+	consumers[i].needToken
 	pthread_cond_signal(Notifier);
 	pthread_mutex_unlock(Lock);
 	return ret;
@@ -95,17 +89,17 @@ void put(void *stream, void *value){
 	pthread_mutex_lock(Lock);
 	while (nelem(Q) >= BUFFER_SIZE)
 		pthread_cond_wait(Notifier, Lock);
-
+	
 	enqueue(Q, (long)value);
 	pthread_cond_signal(Notifier);
 	pthread_mutex_unlock(Lock);
 	return;
-
+		
 }
 
 void *produce(void *streams){
 	Stream *self = ((Args*)streams)->self;
-
+	
 	int i;
 	long *value;
 
@@ -124,7 +118,7 @@ void *consume(void *streams){
 	int id = ((Args*)streams)->self->id;
 	int i;
 	void *value;
-
+	
 	for (i=0; i<10; i++){
 		value = get(prod);
 		printf("\t\t\t\t\t\t\tConsumer(%i): got %ld\n", id, *(long*)value);
@@ -146,41 +140,39 @@ void init_stream(Args *args, Stream *self, void *data){
 }
 
 void connect(int id){
-  printf("Connect\n");
-  bool flag = 1;
+	bool flag = 1;
 	pthread_t thread;
 	pthread_attr_t attr;
 	Stream stream;
 	Args args;
-  printf("Connect Setup complete\n");
+	
 	if (numConsumers >= 10){
 		printf("\nThe maximum number of consumers (10) are already connected.\nPlease disconnect a consumer, or wait for a consumer to disconnect before proceeding.\n\n");
 
 		return;
 	}
 
-	while(flag){
+	while(flag){			
 		flag = 0;
 		for(int i=0; i<numConsumers;i++){
 			if(id == consumers[i].ID){
 				printf("\n\nID taken. Choose a new ID.\n>>>");
 				scanf("%i", &id);
-				flag = 1;
+				flag = 1;			
 			}
 		}
-
+		
 	}
-
-  printf("ID Cleared\n");
+	
 	init_stream(&args, &stream, NULL);
-  printf("Stream initialized\n");
+
+
 	pthread_create(&thread, &attr, consume, (void*)&args);
-  printf("Thread Created\n");
+	
 	consumers[numConsumers].ID = id;
 	consumers[numConsumers].thread = thread;
 	consumers[numConsumers].args = args;
 	consumers[numConsumers++].tokenIndex = currentIndex;
-  printf("Properties set\n");
 	return;
 }
 
@@ -192,8 +184,8 @@ void disconnect(int toDelete){
 	}
 	for(i = 0; i <= numConsumers-1; i++){
 		if(toDelete == consumers[i].ID){
-			for(int k = i; k<=numConsumers-2; k++){
-				consumers[k].ID = consumers[k+1].ID;
+			for(int k = i; k<=numConsumers-2; k++){			
+				consumers[k].ID = consumers[k+1].ID;			
 			}
 			numConsumers--;
 			printf("\nConsumer %i successfully disconnected.\n", toDelete);
@@ -216,17 +208,14 @@ void printIDs(void){
 void kill_stream(Stream *stream) { destroy_queue(&stream->buffer); }
 
 int main(void){
-  printf("Producer:Consumer\n===========\n");
 	int nav = 0;
 	int id = 0;
 	numConsumers = 0;
 	currentIndex = 0;
-  printf("Stream\n");
 	Stream *stream;
+	stream->id = 1;
 
-  printf("Menu\n");
 	while(nav!=7){
-    printf("Menu:\n");
 		nav = menu();
 		if(!(nav >= 0 && nav <= 7))
 		{	printf("Menu options limited to integers between 0 and 7.\n");	}
@@ -240,15 +229,10 @@ int main(void){
 				printf("=============\nAssign consumer id (integer):\n>>> ");
 				scanf("%i", &id);
 				connect(id);
-        printf("Out of connect\n");
 				break;
 			case 2:
-        if(numConsumers == 0){
-          printf("\n\n!!! No Consumers currently connected. !!!\n\n");
-          break;
-        }
-        printIDs();
-				printf("=============\nPlease enter the consumer ID to disconnect:\n>>> ");
+				printIDs();
+				printf("=============\nPlease enter the consumer ID to disconnect:\n>>>");
 				scanf("%i", &id);
 				disconnect(id);
 				break;
@@ -266,14 +250,19 @@ int main(void){
 				break;
 			case 7:
 				break;
-		}
-	}
+		}		
 
-  //Cleanup
-  for(int i = 0;i < numConsumers; i++){
-    pthread_cancel(consumers[i].thread);
-  }
-  kill_stream(stream);
+		//Cleanup
+		for(int i = 0;i < numConsumers; i++){
+			pthread_cancel(consumers[i].thread);		
+		}
+		
+		kill_stream(stream);
+
+	}
+	
+	
 
 	return 0;
 }
+	
