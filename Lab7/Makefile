@@ -1,5 +1,4 @@
-obj-m := timer.o
-obj-m := pthread_timer.o
+obj-m := netdriver.o
 
 KVERSION := $(shell uname -r)
 KDIR := /lib/modules/$(KVERSION)/build
@@ -12,5 +11,5 @@ clean:
 	$(MAKE) -C $(KDIR) M=$(PWD) clean
 
 rmall:
-	rmall '*.o' '*.ko' '*.mod.c' Mod* mod* '.[a-z]*' '.tmp_versions/*'
+	rmall '*.o' '*.ko' '*.mod.c' Mod* mod* '.[a-z]*' '*.class' '.tmp_versions/*'
 	rmdall .tmp_versions
