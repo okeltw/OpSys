@@ -1,0 +1,66 @@
+FROM LAB DESCRIPTION: 
+========================
+
+I. Rationale:
+-------------
+	"Learn some basic elements of file system design and management.  This lab is based on he FUSE package (for userspace file system development)."
+
+II. Lab:
+---------
+	* Modify the provided file to create a filesystem with properties:
+
+ ******************************************************************************************************************************************************************************************************
+Ck	
+[ ]	1. Let directory a be a mount directory and b be a directory containing a number of files and possibly nested directories.  Let uid be a number that corresponds to user id.  Then b may be mounted
+		on a with the following:
+			-> bbfs b a uid
+	
+[ ]	2. A user who identity matches uid encrypts files that are copied to or written to directory a. [Encryption notes below]
+	
+[ ]	3. A user whose identity matches uid decrypts files that are read from or executed in directory a.  For example, an executable file that was encrypted and is in a will run successfully if invoked
+		by a user with identity uid.
+		
+[ ]	4. All users whose identity is not uid are unable to decrypt files in directory a and will not automatically (through FUSE) encrypt files in a.
+
+[ ] 5. A user whose identity matches uid may change permissions of files in a.
+
+[ ] 6. No user whose identity does not match uid can change permissions of files in a even if the file is owned by said user.
+
+[ ] 7. Any attempt by a user whose identity does not management uid to change the permissions of a file in a is logged showing the uid of the culprit.  For example, a line like the following is
+		written to bbfs.log
+			-> Illegal op by user 511 on file wombat.txt Mon Nov 26 13:17:52 EST 2012
+	
+	8. No other information is logged.
+ ******************************************************************************************************************************************************************************************************	
+
+III. Encryption:
+-----------------
+[ ] * To encrypt a file, 1 is added to each byte and the result is taken mod 256.  Ex:
+		-> byte[i] = (byte[i]+1) % 256;
+		
+[ ] * To decrypt a file, 1 is subtracted from each byte and the result is taken mod 256.  Ex:
+		-> byte[i] = (byte[i] == 0) ? 255 : ((byte[i]-1) % 256);
+		
+	~~ Where byte is of type unsigned char[] ~~
+	
+IV. Using user ID to determine encryption:
+-------------------------------------------
+[ ] * Change bb_state to add a field that stores the ID of the user who is to get unencrypted files.
+[ ] * That ID number can be entered as the third command line argument to bbfs.
+[ ] * Use the BB_DATA macro in params.h to access bb_state and therefore the input user ID.
+
+V. Where to compare uid (from getuid) to the input ID value:
+-------------------------------------------------------------
+	* bb_chmod 	- prevent unauthorized user from changing permissions
+	* bb_read 	- prevent unauthorized user from decrypting
+	* bb_write 	- prevent unauthorized user from overwriting file
+	
+	
+=======================================================================================================================================================================================================
+
+FUSE Documentation:
+ http://gauss.ececs.uc.edu/Courses/c4029/labs/Fuse/index.html
+	
+
+
+
