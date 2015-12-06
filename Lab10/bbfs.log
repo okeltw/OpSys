@@ -1,0 +1,1124 @@
+
+bb_init()
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_getattr(path="/.Trash", statbuf=0x85c12c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/.Trash", fpath = "/home/taylor/Desktop/Lab10/rootdir/.Trash"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_getattr(path="/.Trash-1000", statbuf=0x85411c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/.Trash-1000", fpath = "/home/taylor/Desktop/Lab10/rootdir/.Trash-1000"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_getattr(path="/.xdg-volume-info", statbuf=0x85c12c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/.xdg-volume-info", fpath = "/home/taylor/Desktop/Lab10/rootdir/.xdg-volume-info"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_getattr(path="/autorun.inf", statbuf=0x85411c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/autorun.inf", fpath = "/home/taylor/Desktop/Lab10/rootdir/autorun.inf"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85c12c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x80000af0, filler=0x86403220, offset=0, fi=0x85411c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85c12c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x80000af0, filler=0x86403220, offset=0, fi=0x85411c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85c12c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x80000af0, filler=0x86403220, offset=0, fi=0x85411c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85c12c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x80000af0, filler=0x86403220, offset=0, fi=0x85411c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85c12c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x80000af0, filler=0x86403220, offset=0, fi=0x85411c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85c12c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x80000af0, filler=0x86403220, offset=0, fi=0x85411c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_opendir(path="/", fi=0x85c12c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x80000af0, filler=0x86403220, offset=0, fi=0x85411c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b80000c80
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b80000c80
+    lock_owner = 0x0000000000000000
+
+bb_getattr(path="/autorun.inf", statbuf=0x85411c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/autorun.inf", fpath = "/home/taylor/Desktop/Lab10/rootdir/autorun.inf"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_getattr(path="/", statbuf=0x85c12bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1bb
+    st_ctime = 0x5664b1bb
+
+bb_getattr(path="/", statbuf=0x85411bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1bb
+    st_ctime = 0x5664b1bb
+
+bb_access(path="/", mask=04)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_access(path="/", mask=02)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_access(path="/", mask=01)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_access(path="/", mask=04)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_access(path="/", mask=02)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_access(path="/", mask=01)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_releasedir(path="/", fi=0x85411c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_getattr(path="/", statbuf=0x85c12bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1bb
+    st_ctime = 0x5664b1bb
+
+bb_getattr(path="/Untitled Document", statbuf=0x85411c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/Untitled Document", fpath = "/home/taylor/Desktop/Lab10/rootdir/Untitled Document"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_getattr(path="/", statbuf=0x85c12bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1bb
+    st_ctime = 0x5664b1bb
+
+bb_opendir(path="/", fi=0x85411c50)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    flags = 0x00018800
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_access(path="/", mask=02)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_getattr(path="/.Trash", statbuf=0x85411c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/.Trash", fpath = "/home/taylor/Desktop/Lab10/rootdir/.Trash"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_getattr(path="/.Trash-1000", statbuf=0x85c12c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/.Trash-1000", fpath = "/home/taylor/Desktop/Lab10/rootdir/.Trash-1000"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_access(path="/", mask=02)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+
+bb_readdir(path="/", buf=0x78000990, filler=0x86403220, offset=0, fi=0x85c12c50)
+calling filler with name ..
+calling filler with name .
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_getattr(path="/", statbuf=0x85411bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1bb
+    st_ctime = 0x5664b1bb
+
+bb_releasedir(path="/", fi=0x85c12c60)
+    flags = 0x00000000
+    fh_old = 0x7f8b78000b20
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x00007f8b78000b20
+    lock_owner = 0x0000000000000000
+
+bb_statfs(path="/", statv=0x85411be0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    f_bsize = 4096
+    f_frsize = 4096
+    f_blocks = 7129567
+    f_bfree = 5437877
+    f_bavail = 5069954
+    f_files = 1819680
+    f_ffree = 1494008
+    f_favail = 1494008
+    f_fsid = -5021024937926804473
+    f_flag = 0x00001000
+    f_namemax = 255
+
+bb_getattr(path="/", statbuf=0x85c12bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1bb
+    st_ctime = 0x5664b1bb
+
+bb_statfs(path="/", statv=0x85411be0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    f_bsize = 4096
+    f_frsize = 4096
+    f_blocks = 7129567
+    f_bfree = 5437877
+    f_bavail = 5069954
+    f_files = 1819680
+    f_ffree = 1494008
+    f_favail = 1494008
+    f_fsid = -5021024937926804473
+    f_flag = 0x00001000
+    f_namemax = 255
+
+bb_getattr(path="/Untitled Document", statbuf=0x85c12c20)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/Untitled Document", fpath = "/home/taylor/Desktop/Lab10/rootdir/Untitled Document"
+    ERROR bb_getattr lstat: No such file or directory
+    st_dev = 0
+    st_ino = 0
+    st_mode = 00
+    st_nlink = 0
+    st_uid = 0
+    st_gid = 0
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 0
+    st_blocks = 0
+    st_atime = 0x00000000
+    st_mtime = 0x00000000
+    st_ctime = 0x00000000
+
+bb_create(path="/Untitled Document", mode=0100664, fi=0x85411d10)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/Untitled Document", fpath = "/home/taylor/Desktop/Lab10/rootdir/Untitled Document"
+    flags = 0x000080c1
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x0000000000000005
+    lock_owner = 0x0000000000000000
+
+bb_fgetattr(path="/Untitled Document", statbuf=0x85411be0, fi=0x85411d10)
+    flags = 0x000080c1
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x0000000000000005
+    lock_owner = 0x0000000000000000
+    st_dev = 64512
+    st_ino = 915252
+    st_mode = 0100664
+    st_nlink = 1
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 0
+    st_blksize = 4096
+    st_blocks = 0
+    st_atime = 0x5664b1cc
+    st_mtime = 0x5664b1cc
+    st_ctime = 0x5664b1cc
+
+bb_flush(path="/Untitled Document", fi=0x85c12d10)
+    flags = 0x00000000
+    fh_old = 0x00000005
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x0000000000000005
+    lock_owner = 0x05b3dbd897ba578b
+
+bb_release(path="/Untitled Document", fi=0x85411d10)
+    flags = 0x00008001
+    fh_old = 0x00000005
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x0000000000000005
+    lock_owner = 0x0000000000000000
+
+bb_getattr(path="/", statbuf=0x85c12bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1cc
+    st_ctime = 0x5664b1cc
+
+bb_open(path"/Untitled Document", fi=0x85c12d10)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/Untitled Document", fpath = "/home/taylor/Desktop/Lab10/rootdir/Untitled Document"
+    flags = 0x00048000
+    fh_old = 0x00000000
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x0000000000000005
+    lock_owner = 0x0000000000000000
+
+bb_getattr(path="/", statbuf=0x85411bf0)
+    bb_fullpath:  rootdir = "/home/taylor/Desktop/Lab10/rootdir", path = "/", fpath = "/home/taylor/Desktop/Lab10/rootdir/"
+    st_dev = 64512
+    st_ino = 951745
+    st_mode = 040775
+    st_nlink = 2
+    st_uid = 1000
+    st_gid = 1000
+    st_rdev = 0
+    st_size = 4096
+    st_blksize = 4096
+    st_blocks = 8
+    st_atime = 0x5664b1bb
+    st_mtime = 0x5664b1cc
+    st_ctime = 0x5664b1cc
+
+bb_read(path="/Untitled Document", buf=0x7c000af0, size=4096, offset=0, fi=0x84c10d10)
+    flags = 0x00048000
+    fh_old = 0x00000005
+    writepage = 0
+    direct_io = 0
+    keep_cache = 0
+    fh = 0x0000000000000005
+    lock_owner = 0x0000000000000000
