@@ -1,5 +1,6 @@
 #http://gauss.ececs.uc.edu/Courses/c4029/labs/Fuse/src/Makefile
 
+
 bbfs : bbfs.o log.o
 	gcc -g -o bbfs bbfs.o log.o `pkg-config fuse --libs`
 
@@ -11,6 +12,7 @@ log.o : log.c log.h params.h
 
 clean:
 	rm -f bbfs *.o
+	rm -r mountdir rootdir
 
 dist:
 	rm -rf fuse-tutorial/
@@ -24,3 +26,7 @@ dist:
 	cp Makefile *.c *.h fuse-tutorial/src/
 	tar cvzf ../../fuse-tutorial.tgz fuse-tutorial/
 	rm -rf fuse-tutorial/
+
+files:
+	mkdir -p mountdir
+	mkdir -p rootdir

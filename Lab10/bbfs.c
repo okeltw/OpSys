@@ -15,6 +15,15 @@
   gcc -Wall `pkg-config fuse --cflags --libs` -o bbfs bbfs.c
 */
 
+/*
+Modified By:
+Author - Taylor Okel
+Partner - Jeff Tobe
+
+For Operating systems Lab 10
+With inspiration from Prof. Franco
+*/
+
 #include "params.h"
 
 #include <ctype.h>
@@ -30,8 +39,37 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/xattr.h>
+#include <time.h>
+#include <stdbool.h>
 
 #include "log.h"
+
+
+void bb_encrypt(unsigned char *buf, int len){
+   log_msg("Encrypting...\n");
+   int index;
+   for(index=0;index < len; index++){
+    buf[index] = ((buf[index]+1) % 256);  // cast to int, perform ops, recast to char
+   }
+
+	buf[len] = '\0';
+  return;
+}
+
+void bb_decrypt(unsigned char *buf, int len){
+   log_msg("Decrypting...\n");
+   int index;
+   for(index = 0; index < len; index++){
+      buf[index] = (buf[index] == 0) ? 255 : ((buf[index]-1) % 256);
+   }
+	buf[len] = '\0';
+   return;
+}
+
+bool isAllowed(){
+   log_msg("\n isAllowed detemined %i", (int)(getuid() == atoi(BB_DATA->uid)));
+   return (getuid() == atoi(BB_DATA->uid));
+}
 
 // Report errors to logfile and give -errno to caller
 static int bb_error(char *str) {
@@ -76,6 +114,7 @@ int bb_getattr(const char *path, struct stat *statbuf) {
 
    retstat = lstat(fpath, statbuf);
    if (retstat != 0) retstat = bb_error("bb_getattr lstat");
+
    log_stat(statbuf);
    return retstat;
 }
@@ -295,6 +334,7 @@ int bb_utime(const char *path, struct utimbuf *ubuf) {
 int bb_open(const char *path, struct fuse_file_info *fi) {
    int retstat = 0;
    int fd;
+
    char fpath[PATH_MAX];
 
    log_msg("\nbb_open(path\"%s\", fi=0x%08x)\n", path, fi);
@@ -342,7 +382,25 @@ int bb_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_
     * number of bytes read.
     */
    retstat = pread(fi->fh, buf, size, offset);
-   if (retstat < 0) retstat = bb_error("bb_read read");
+
+   if(getuid() != atoi(BB_DATA->uid)){
+      time_t t = time(NULL);
+      struct tm tm = *localtime(&t);
+      log_msg("\nIllegal Read by user %d on file %s %d-%d-%d %d:%d:%d\nAllowable User: %d", getuid(), path, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, atoi(BB_DATA->uid));
+   }
+   // if(!isAllowed()){
+   //    time_t t = time(NULL);
+   //    struct tm tm = *localtime(&t);
+   //    retstat = bb_error("bb_read unauth");
+   //    log_msg("\nIllegal Read by user %d on file %s %d-%d-%d %d:%d:%d\nAllowable User: %d", getuid(), path, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, atoi(BB_DATA->uid));
+   //     log_fi(fi);
+   // }
+   // else
+   if (retstat < 0)
+      retstat = bb_error("bb_read read");
+   // else
+   //    bb_decrypt(buf, size);
+
    return retstat;
 }
 
@@ -356,17 +414,33 @@ int bb_read(const char *path, char *buf, size_t size, off_t offset, struct fuse_
  */
 // As  with read(), the documentation above is inconsistent with the
 // documentation for the write() system call.
-int bb_write(const char *path, const char *buf, size_t size, off_t offset,
-	     struct fuse_file_info *fi) {
-   int retstat = 0;
+int bb_write(const char *path, char *buf, size_t size, off_t offset,
+     struct fuse_file_info *fi) {
+  int retstat = 0;
 
-   log_msg("\nbb_write(path=\"%s\", buf=0x%08x, size=%d, offset=%lld, fi=0x%08x)\n", path, buf, size, offset, fi);
-   // no need to get fpath on this one, since I work from fi->fh not the path
-   log_fi(fi);
+  log_msg("\nbb_write(path=\"%s\", buf=0x%08x, size=%d, offset=%lld, fi=0x%08x)\n", path, buf, size, offset, fi);
+  // no need to get fpath on this one, since I work from fi->fh not the path
+  log_fi(fi);
 
-   retstat = pwrite(fi->fh, buf, size, offset);
-   if (retstat < 0) retstat = bb_error("bb_write pwrite");
-   return retstat;
+  if(getuid() != atoi(BB_DATA->uid)){
+     time_t t = time(NULL);
+     struct tm tm = *localtime(&t);
+     log_msg("\nIllegal Write by user %d on file %s %d-%d-%d %d:%d:%d\nAllowable User: %d", getuid(), path, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, atoi(BB_DATA->uid));
+  }
+
+  // if(!isAllowed()){
+  //   time_t t = time(NULL);
+  //   struct tm tm = *localtime(&t);
+  //   retstat = bb_error("bb_write unauth");
+  //   log_msg("\nIllegal Write by user %d on file %s %d-%d-%d %d:%d:%d\nAllowable User: %d", getuid(), path, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, atoi(BB_DATA->uid));
+  // }
+  // else{
+  //   bb_encrypt(buf, size);
+  // }
+
+  retstat = pwrite(fi->fh, buf, size, offset);
+  if (retstat < 0) retstat = bb_error("bb_write pwrite");
+  return retstat;
 }
 
 /** Get file system statistics
@@ -419,6 +493,7 @@ int bb_flush(const char *path, struct fuse_file_info *fi) {
    log_msg("\nbb_flush(path=\"%s\", fi=0x%08x)\n", path, fi);
    // no need to get fpath on this one, since I work from fi->fh not the path
    log_fi(fi);
+
    return retstat;
 }
 
@@ -461,13 +536,18 @@ int bb_fsync(const char *path, int datasync, struct fuse_file_info *fi) {
    log_msg("\nbb_fsync(path=\"%s\", datasync=%d, fi=0x%08x)\n",path,datasync,fi);
    log_fi(fi);
 
-   if (datasync) retstat = fdatasync(fi->fh);
-   else	retstat = fsync(fi->fh);
+   #ifdef HAVE_FDATASYNC
+    if (datasync)
+   	retstat = fdatasync(fi->fh);
+    else
+   #endif
+      retstat = fsync(fi->fh);
 
    if (retstat < 0) bb_error("bb_fsync fsync");
    return retstat;
 }
 
+#ifdef HAVE_SYS_XATTR_H
 /** Set extended attributes */
 int bb_setxattr(const char *path, const char *name, const char *value, size_t size, int flags) {
    int retstat = 0;
@@ -525,6 +605,7 @@ int bb_removexattr(const char *path, const char *name) {
    if (retstat < 0) retstat = bb_error("bb_removexattr lrmovexattr");
    return retstat;
 }
+#endif
 
 /** Open directory
  *
@@ -599,8 +680,8 @@ int bb_readdir(const char *path, void *buf, fuse_fill_dir_t filler, off_t offset
    do {
       log_msg("calling filler with name %s\n", de->d_name);
       if (filler(buf, de->d_name, NULL, 0) != 0) {
-	 log_msg("    ERROR bb_readdir filler:  buffer full");
-	 return -ENOMEM;
+      	 log_msg("    ERROR bb_readdir filler:  buffer full");
+      	 return -ENOMEM;
       }
    } while ((de = readdir(dp)) != NULL);
 
@@ -695,7 +776,8 @@ int bb_access(const char *path, int mask) {
 }
 
 /**
- * Create and open a file
+ *
+  and open a file
  *
  * If the file does not exist, first create it with the specified
  * mode, and then open it.
@@ -736,15 +818,16 @@ int bb_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
  * Introduced in version 2.5
  */
 int bb_ftruncate(const char *path, off_t offset, struct fuse_file_info *fi) {
-   int retstat = 0;
+  int retstat = 0;
 
-   log_msg("\nbb_ftruncate(path=\"%s\", offset=%lld, fi=0x%08x)\n",
-	   path, offset, fi);
-   log_fi(fi);
+  log_msg("\nbb_ftruncate(path=\"%s\", offset=%lld, fi=0x%08x)\n",
+   path, offset, fi);
+  log_fi(fi);
 
-   retstat = ftruncate(fi->fh, offset);
-   if (retstat < 0) retstat = bb_error("bb_ftruncate ftruncate");
-   return retstat;
+
+  retstat = ftruncate(fi->fh, offset);
+  if (retstat < 0) retstat = bb_error("bb_ftruncate ftruncate");
+  return retstat;
 }
 
 /**
@@ -765,8 +848,7 @@ int bb_ftruncate(const char *path, off_t offset, struct fuse_file_info *fi) {
 int bb_fgetattr(const char *path, struct stat *statbuf, struct fuse_file_info *fi) {
    int retstat = 0;
 
-   log_msg("\nbb_fgetattr(path=\"%s\", statbuf=0x%08x, fi=0x%08x)\n",
-	   path, statbuf, fi);
+   log_msg("\nbb_fgetattr(path=\"%s\", statbuf=0x%08x, fi=0x%08x)\n",path, statbuf, fi);
    log_fi(fi);
 
    retstat = fstat(fi->fh, statbuf);
@@ -797,10 +879,14 @@ struct fuse_operations bb_oper = {
    .flush = bb_flush,
    .release = bb_release,
    .fsync = bb_fsync,
+
+   #ifdef HAVE_SYS_XATTR_H
    .setxattr = bb_setxattr,
    .getxattr = bb_getxattr,
    .listxattr = bb_listxattr,
    .removexattr = bb_removexattr,
+   #endif
+
    .opendir = bb_opendir,
    .readdir = bb_readdir,
    .releasedir = bb_releasedir,
@@ -827,6 +913,8 @@ int main(int argc, char *argv[]) {
    int fuse_stat;
    struct bb_state *bb_data;
 
+   int id = getuid();
+   fprintf(stderr, "Current User ID = %d\n", id);
    // bbfs doesn't do any access checking on its own (the comment
    // blocks in fuse.h mention some of the functions that need
    // accesses checked -- but note there are other functions, like
@@ -857,10 +945,20 @@ int main(int argc, char *argv[]) {
 
    // Pull the rootdir out of the argument list and save it in
    // bb_data->rootdir
+
+   //argv[0] = ./bbfs
+   //argv[1] = rootdir (or whatever the root is set as)
+   //argv[2] = mountdir (or whatever the mount is set as)
+   //argv[3] = uid (where uid is an integer)
+   bb_data->uid = (int)argv[argc-1];
+   argv[argc-1] = NULL;
+   argc--;
+
    bb_data->rootdir = realpath(argv[argc-2], NULL);
    argv[argc-2] = argv[argc-1];
    argv[argc-1] = NULL;
    argc--;
+
 
    // open the log file and save its handle
    bb_data->logfile = log_open();

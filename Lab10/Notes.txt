@@ -1,3 +1,9 @@
+GLOSSARY OF SYMBOLS:
+X - Finished task
+~ - Have written code/function, but unsure if it works.
+? - Needs more research
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 FROM LAB DESCRIPTION: 
 ========================
 
@@ -7,7 +13,7 @@ I. Rationale:
 
 II. Lab:
 ---------
-	* Modify the provided file to create a filesystem with properties:
+	* Modify the provided file to create a filesystem with properties:/home/taylor/Documents/Labs/OpSys/Lab10/bbfs.c
 
  ******************************************************************************************************************************************************************************************************
 Ck	
@@ -15,7 +21,7 @@ Ck
 		on a with the following:
 			-> bbfs b a uid
 	
-[ ]	2. A user who identity matches uid encrypts files that are copied to or written to directory a. [Encryption notes below]
+[ ]	2. A user who identity matches uid encrypts files that are copied to or written to/home/taylor/Documents/Labs/OpSys/Lab10/params.h directory a. [Encryption notes below]
 	
 [ ]	3. A user whose identity matches uid decrypts files that are read from or executed in directory a.  For example, an executable file that was encrypted and is in a will run successfully if invoked
 		by a user with identity uid.
@@ -30,15 +36,15 @@ Ck
 		written to bbfs.log
 			-> Illegal op by user 511 on file wombat.txt Mon Nov 26 13:17:52 EST 2012
 	
-	8. No other information is logged.
+[~] 8. No other information is logged.
  ******************************************************************************************************************************************************************************************************	
 
 III. Encryption:
 -----------------
-[ ] * To encrypt a file, 1 is added to each byte and the result is taken mod 256.  Ex:
+[~] * To encrypt a file, 1 is added to each byte and the result is taken mod 256.  Ex:
 		-> byte[i] = (byte[i]+1) % 256;
 		
-[ ] * To decrypt a file, 1 is subtracted from each byte and the result is taken mod 256.  Ex:
+[~] * To decrypt a file, 1 is subtracted from each byte and the result is taken mod 256.  Ex:
 		-> byte[i] = (byte[i] == 0) ? 255 : ((byte[i]-1) % 256);
 		
 	~~ Where byte is of type unsigned char[] ~~
